@@ -1,7 +1,7 @@
 {
   "name": "sequelize-admin",
   "version": "0.1.0",
-  "description": "",
+  "description": "auto generate crud ui for sequelize with koa.js",
   "main": "index.js",
   "directories": {
     "lib": "lib"
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/zenxds/sequelize-admin/issues"
   },
-  "homepage": "https://github.com/zenxds/sequelize-admin#readme"
+  "homepage": "https://github.com/zenxds/sequelize-admin#readme",
+  "devDependencies": {
+    "ava": "^0.22.0"
+  }
 }
