@@ -1,5 +1,5 @@
 {
-  "name": "sequelize-admin",
+  "name": "koa-sequelize-admin",
   "version": "0.1.0",
   "description": "auto generate crud ui for sequelize with koa.js",
   "main": "index.js",
