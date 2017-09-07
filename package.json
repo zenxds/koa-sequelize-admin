@@ -1,0 +1,27 @@
+{
+  "name": "sequelize-admin",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/zenxds/sequelize-admin.git"
+  },
+  "keywords": [
+    "sequelize",
+    "admin",
+    "koa"
+  ],
+  "author": "zenxds",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zenxds/sequelize-admin/issues"
+  },
+  "homepage": "https://github.com/zenxds/sequelize-admin#readme"
+}
