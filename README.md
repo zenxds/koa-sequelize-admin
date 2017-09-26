@@ -47,7 +47,6 @@ in admin template
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>sequelize admin</title>
-  <link rel="shortcut icon" type="image/x-icon" href="https://www.dingxiang-inc.com/favicon.ico">
   <link href="/dist/main.css rel="stylesheet">
   <script>
     var pageConfig = {
