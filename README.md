@@ -1,11 +1,11 @@
-# sequelize-admin
+# koa-sequelize-admin
 
 auto generate crud ui for sequelize with koa.js
 
 ## install
 
 ```
-npm install sequelize-admin --save
+npm install koa-sequelize-admin --save
 ```
 
 ## how to use
@@ -13,13 +13,13 @@ npm install sequelize-admin --save
 add a admin file, and register model
 
 ```
-const Admin = require('sequelize-admin')
+const Admin = require('koa-sequelize-admin')
 const admin = new Admin()
 
 const UploadRecord = require('../model/uploadRecord')
 
-admin.register(DetectRecord, {
-  displayName: '检测记录',
+admin.register(UploadRecord, {
+  displayName: '上传记录',
   format: '{{ id }}',
   attributes: {
     id: 'ID',
