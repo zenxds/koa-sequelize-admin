@@ -1,13 +1,14 @@
 {
   "name": "koa-sequelize-admin",
-  "version": "0.1.1",
-  "description": "auto generate crud ui for sequelize with koa.js",
+  "version": "0.2.0",
+  "description": "auto generate crud ui for sequelize model in koa.js",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "ava"
+    "test:server": "nodemon test/server/index.js",
+    "test": "ava test/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,18 @@
   },
   "homepage": "https://github.com/zenxds/sequelize-admin#readme",
   "devDependencies": {
-    "ava": "^0.22.0"
+    "ava": "^0.22.0",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
+    "koa-views": "^6.1.1",
+    "mysql2": "^1.4.2",
+    "nodemon": "^1.12.1",
+    "nunjucks": "^3.0.1",
+    "sequelize": "^4.15.0"
+  },
+  "dependencies": {
+    "lodash.defaults": "^4.2.0"
   }
 }
