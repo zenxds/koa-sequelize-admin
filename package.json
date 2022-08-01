@@ -1,6 +1,6 @@
 {
   "name": "koa-sequelize-admin",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "auto generate crud ui for sequelize model in koa.js",
   "main": "index.js",
   "directories": {
@@ -29,7 +29,6 @@
     "ava": "^0.22.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.2.1",
     "koa-static": "^4.0.1",
     "koa-views": "^6.1.1",
     "mysql2": "^1.4.2",
@@ -39,5 +38,9 @@
   },
   "dependencies": {
     "lodash.defaults": "^4.2.0"
+  },
+  "peerDependencies": {
+    "@koa/router": "^12.0.0",
+    "koa-router": "^12.0.0"
   }
 }
