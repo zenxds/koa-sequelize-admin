@@ -1,0 +1,495 @@
+yarn run v1.13.0
+$ NODE_ENV=dev nodemon index.js
+[33m[nodemon] 2.0.19[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,json,html[39m
+[32m[nodemon] starting `node index.js`[39m
+[Function: User] {
+  sequelize: Sequelize {
+    options: {
+      dialect: 'mysql',
+      dialectModule: null,
+      dialectModulePath: null,
+      host: '127.0.0.1',
+      protocol: 'tcp',
+      define: [Object],
+      query: {},
+      sync: {},
+      timezone: '+00:00',
+      standardConformingStrings: true,
+      logging: false,
+      omitNull: false,
+      native: false,
+      replication: false,
+      ssl: undefined,
+      pool: {},
+      quoteIdentifiers: true,
+      hooks: {},
+      retry: [Object],
+      transactionType: 'DEFERRED',
+      isolationLevel: null,
+      databaseVersion: 0,
+      typeValidation: false,
+      benchmark: false,
+      minifyAliases: false,
+      logQueryParameters: false,
+      port: '3306',
+      database: 'sequelize-admin',
+      username: 'root',
+      password: 'mysql_root'
+    },
+    config: {
+      database: 'sequelize-admin',
+      username: 'root',
+      password: 'mysql_root',
+      host: '127.0.0.1',
+      port: '3306',
+      pool: {},
+      protocol: 'tcp',
+      native: false,
+      ssl: undefined,
+      replication: false,
+      dialectModule: null,
+      dialectModulePath: null,
+      keepDefaultTimezone: undefined,
+      dialectOptions: undefined
+    },
+    dialect: MysqlDialect {
+      sequelize: [Circular],
+      connectionManager: [ConnectionManager],
+      queryGenerator: [MySQLQueryGenerator],
+      queryInterface: [MySQLQueryInterface]
+    },
+    queryInterface: MySQLQueryInterface {
+      sequelize: [Circular],
+      queryGenerator: [MySQLQueryGenerator]
+    },
+    models: {
+      AuthToken: [Function],
+      Login: [Function],
+      Notification: [Function],
+      Role: [Function],
+      Task: [Function],
+      User: [Circular],
+      task_notification: [Function],
+      user_role: [Function]
+    },
+    modelManager: ModelManager { models: [Array], sequelize: [Circular] },
+    connectionManager: ConnectionManager {
+      sequelize: [Circular],
+      config: [Object],
+      dialect: [MysqlDialect],
+      versionPromise: [Promise],
+      dialectName: 'mysql',
+      pool: [Pool],
+      lib: [Object]
+    }
+  },
+  options: {
+    timestamps: true,
+    validate: {},
+    freezeTableName: true,
+    underscored: false,
+    paranoid: false,
+    rejectOnEmpty: false,
+    whereCollection: null,
+    schema: null,
+    schemaDelimiter: '',
+    defaultScope: {},
+    scopes: {},
+    indexes: [],
+    whereMergeStrategy: 'overwrite',
+    name: { plural: 'Users', singular: 'User' },
+    omitNull: false,
+    sequelize: Sequelize {
+      options: [Object],
+      config: [Object],
+      dialect: [MysqlDialect],
+      queryInterface: [MySQLQueryInterface],
+      models: [Object],
+      modelManager: [ModelManager],
+      connectionManager: [ConnectionManager]
+    },
+    tableName: 'user',
+    setterMethods: { password: [Function: password] },
+    hooks: {}
+  },
+  associations: {
+    tokens: HasMany {
+      source: [Circular],
+      target: [Function],
+      options: [Object],
+      scope: undefined,
+      isSelfAssociation: false,
+      as: 'tokens',
+      associationType: 'HasMany',
+      targetAssociation: null,
+      sequelize: [Sequelize],
+      isMultiAssociation: true,
+      foreignKeyAttribute: {},
+      isAliased: true,
+      foreignKey: 'UserId',
+      identifierField: 'UserId',
+      foreignKeyField: 'UserId',
+      sourceKey: 'id',
+      sourceKeyAttribute: 'id',
+      sourceKeyField: 'id',
+      associationAccessor: 'tokens',
+      accessors: [Object]
+    },
+    roles: BelongsToMany {
+      source: [Circular],
+      target: [Function],
+      options: [Object],
+      scope: undefined,
+      isSelfAssociation: false,
+      as: 'roles',
+      associationType: 'BelongsToMany',
+      targetAssociation: null,
+      sequelize: [Sequelize],
+      through: [Object],
+      isMultiAssociation: true,
+      doubleLinked: false,
+      isAliased: true,
+      combinedTableName: 'roleuser',
+      paired: [BelongsToMany],
+      sourceKey: 'id',
+      sourceKeyField: 'id',
+      targetKeyDefault: true,
+      targetKey: 'id',
+      targetKeyField: 'id',
+      foreignKeyAttribute: {},
+      foreignKey: 'UserId',
+      otherKeyDefault: true,
+      otherKeyAttribute: {},
+      otherKey: 'RoleId',
+      throughModel: [Function],
+      combinedName: 'user_role',
+      associationAccessor: 'roles',
+      accessors: [Object],
+      identifier: 'UserId',
+      foreignIdentifier: 'RoleId',
+      primaryKeyDeleted: true,
+      identifierField: 'UserId',
+      foreignIdentifierField: 'RoleId',
+      toSource: [BelongsTo],
+      manyFromSource: [HasMany],
+      oneFromSource: [HasOne],
+      toTarget: [BelongsTo],
+      manyFromTarget: [HasMany],
+      oneFromTarget: [HasOne]
+    }
+  },
+  underscored: false,
+  tableName: 'user',
+  _schema: null,
+  _schemaDelimiter: '',
+  rawAttributes: {
+    id: {
+      type: [INTEGER],
+      autoIncrement: true,
+      primaryKey: true,
+      Model: [Circular],
+      fieldName: 'id',
+      _modelAttribute: true,
+      field: 'id'
+    },
+    username: {
+      type: [STRING],
+      unique: true,
+      allowNull: false,
+      validate: [Object],
+      Model: [Circular],
+      fieldName: 'username',
+      _modelAttribute: true,
+      field: 'username'
+    },
+    password: {
+      type: [STRING],
+      allowNull: false,
+      validate: {},
+      Model: [Circular],
+      fieldName: 'password',
+      _modelAttribute: true,
+      field: 'password'
+    },
+    email: {
+      type: [STRING],
+      unique: true,
+      allowNull: true,
+      validate: [Object],
+      Model: [Circular],
+      fieldName: 'email',
+      _modelAttribute: true,
+      field: 'email'
+    },
+    isSuperAdmin: {
+      type: BOOLEAN {},
+      defaultValue: false,
+      Model: [Circular],
+      fieldName: 'isSuperAdmin',
+      _modelAttribute: true,
+      field: 'isSuperAdmin'
+    },
+    isActive: {
+      type: BOOLEAN {},
+      defaultValue: true,
+      Model: [Circular],
+      fieldName: 'isActive',
+      _modelAttribute: true,
+      field: 'isActive'
+    },
+    createdAt: {
+      type: [DATE],
+      allowNull: false,
+      _autoGenerated: true,
+      Model: [Circular],
+      fieldName: 'createdAt',
+      _modelAttribute: true,
+      field: 'createdAt'
+    },
+    updatedAt: {
+      type: [DATE],
+      allowNull: false,
+      _autoGenerated: true,
+      Model: [Circular],
+      fieldName: 'updatedAt',
+      _modelAttribute: true,
+      field: 'updatedAt'
+    }
+  },
+  _indexes: [],
+  primaryKeys: {
+    id: {
+      type: [INTEGER],
+      autoIncrement: true,
+      primaryKey: true,
+      Model: [Circular],
+      fieldName: 'id',
+      _modelAttribute: true,
+      field: 'id'
+    }
+  },
+  _readOnlyAttributes: Set { 'createdAt', 'updatedAt' },
+  _timestampAttributes: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
+  _hasReadOnlyAttributes: true,
+  _dataTypeChanges: {
+    createdAt: [Function: _isChanged],
+    updatedAt: [Function: _isChanged]
+  },
+  _dataTypeSanitizers: {
+    isSuperAdmin: [Function: _sanitize],
+    isActive: [Function: _sanitize],
+    createdAt: [Function: _sanitize],
+    updatedAt: [Function: _sanitize]
+  },
+  _hasBooleanAttributes: true,
+  _hasDateAttributes: true,
+  _jsonAttributes: Set {},
+  _virtualAttributes: Set {},
+  _defaultValues: { isSuperAdmin: [Function], isActive: [Function] },
+  fieldRawAttributesMap: {
+    id: {
+      type: [INTEGER],
+      autoIncrement: true,
+      primaryKey: true,
+      Model: [Circular],
+      fieldName: 'id',
+      _modelAttribute: true,
+      field: 'id'
+    },
+    username: {
+      type: [STRING],
+      unique: true,
+      allowNull: false,
+      validate: [Object],
+      Model: [Circular],
+      fieldName: 'username',
+      _modelAttribute: true,
+      field: 'username'
+    },
+    password: {
+      type: [STRING],
+      allowNull: false,
+      validate: {},
+      Model: [Circular],
+      fieldName: 'password',
+      _modelAttribute: true,
+      field: 'password'
+    },
+    email: {
+      type: [STRING],
+      unique: true,
+      allowNull: true,
+      validate: [Object],
+      Model: [Circular],
+      fieldName: 'email',
+      _modelAttribute: true,
+      field: 'email'
+    },
+    isSuperAdmin: {
+      type: BOOLEAN {},
+      defaultValue: false,
+      Model: [Circular],
+      fieldName: 'isSuperAdmin',
+      _modelAttribute: true,
+      field: 'isSuperAdmin'
+    },
+    isActive: {
+      type: BOOLEAN {},
+      defaultValue: true,
+      Model: [Circular],
+      fieldName: 'isActive',
+      _modelAttribute: true,
+      field: 'isActive'
+    },
+    createdAt: {
+      type: [DATE],
+      allowNull: false,
+      _autoGenerated: true,
+      Model: [Circular],
+      fieldName: 'createdAt',
+      _modelAttribute: true,
+      field: 'createdAt'
+    },
+    updatedAt: {
+      type: [DATE],
+      allowNull: false,
+      _autoGenerated: true,
+      Model: [Circular],
+      fieldName: 'updatedAt',
+      _modelAttribute: true,
+      field: 'updatedAt'
+    }
+  },
+  uniqueKeys: {
+    user_username_unique: {
+      fields: [Array],
+      msg: null,
+      name: 'user_username_unique',
+      column: 'username',
+      customIndex: false
+    },
+    user_email_unique: {
+      fields: [Array],
+      msg: null,
+      name: 'user_email_unique',
+      column: 'email',
+      customIndex: false
+    }
+  },
+  fieldAttributeMap: {},
+  _hasJsonAttributes: false,
+  _hasVirtualAttributes: false,
+  _hasDefaultValues: true,
+  tableAttributes: {
+    id: {
+      type: [INTEGER],
+      autoIncrement: true,
+      primaryKey: true,
+      Model: [Circular],
+      fieldName: 'id',
+      _modelAttribute: true,
+      field: 'id'
+    },
+    username: {
+      type: [STRING],
+      unique: true,
+      allowNull: false,
+      validate: [Object],
+      Model: [Circular],
+      fieldName: 'username',
+      _modelAttribute: true,
+      field: 'username'
+    },
+    password: {
+      type: [STRING],
+      allowNull: false,
+      validate: {},
+      Model: [Circular],
+      fieldName: 'password',
+      _modelAttribute: true,
+      field: 'password'
+    },
+    email: {
+      type: [STRING],
+      unique: true,
+      allowNull: true,
+      validate: [Object],
+      Model: [Circular],
+      fieldName: 'email',
+      _modelAttribute: true,
+      field: 'email'
+    },
+    isSuperAdmin: {
+      type: BOOLEAN {},
+      defaultValue: false,
+      Model: [Circular],
+      fieldName: 'isSuperAdmin',
+      _modelAttribute: true,
+      field: 'isSuperAdmin'
+    },
+    isActive: {
+      type: BOOLEAN {},
+      defaultValue: true,
+      Model: [Circular],
+      fieldName: 'isActive',
+      _modelAttribute: true,
+      field: 'isActive'
+    },
+    createdAt: {
+      type: [DATE],
+      allowNull: false,
+      _autoGenerated: true,
+      Model: [Circular],
+      fieldName: 'createdAt',
+      _modelAttribute: true,
+      field: 'createdAt'
+    },
+    updatedAt: {
+      type: [DATE],
+      allowNull: false,
+      _autoGenerated: true,
+      Model: [Circular],
+      fieldName: 'updatedAt',
+      _modelAttribute: true,
+      field: 'updatedAt'
+    }
+  },
+  primaryKeyAttributes: [ 'id' ],
+  primaryKeyAttribute: 'id',
+  primaryKeyField: 'id',
+  _hasPrimaryKeys: true,
+  _isPrimaryKey: [Function],
+  _attributeManipulation: {
+    id: { configurable: true, get: [Function], set: [Function] },
+    username: { configurable: true, get: [Function], set: [Function] },
+    password: { configurable: true, get: [Function], set: [Function] },
+    email: { configurable: true, get: [Function], set: [Function] },
+    isSuperAdmin: { configurable: true, get: [Function], set: [Function] },
+    isActive: { configurable: true, get: [Function], set: [Function] },
+    createdAt: { configurable: true, get: [Function], set: [Function] },
+    updatedAt: { configurable: true, get: [Function], set: [Function] }
+  },
+  autoIncrementAttribute: 'id',
+  _scope: {},
+  _scopeNames: [ 'defaultScope' ],
+  admin: {
+    name: '用户管理',
+    format: '{{ username }}',
+    listFields: [ 'id', 'username', 'email', 'isSuperAdmin', 'isActive' ],
+    filterFields: [ 'username', 'email' ],
+    searchFields: [ 'username', 'email' ],
+    fields: {
+      id: 'ID',
+      username: '用户名',
+      password: [Object],
+      email: '邮箱',
+      isSuperAdmin: [Object],
+      isActive: [Object]
+    }
+  }
+}
+server is running on port 7002
+DB Connection has been established successfully
