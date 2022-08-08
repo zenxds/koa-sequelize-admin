@@ -15,7 +15,7 @@ module.exports = {
   target: 'web',
   entry: './src/index.js',
   output: {
-    path: path.join(__dirname, '../build'),
+    path: path.join(__dirname, '../../admin/dist'),
     filename: 'main.js',
     chunkFilename: '[name].[hash].js',
     clean: {

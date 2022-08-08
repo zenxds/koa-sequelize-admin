@@ -5,12 +5,16 @@ import store from '../store'
 class Actions extends BaseActions {
   createItem = (params = {}) => {
     const { model } = this.store
-    return this.post(apis.API_CREATE_ITEM + `/${model}`, params)
+    return this.post(apis.API_CREATE_ITEM + `/${model}`, params, {
+      compact: false
+    })
   }
 
   editItem = (params = {}) => {
     const { model } = this.store
-    return this.post(apis.API_EDIT_ITEM + `/${model}`, params)
+    return this.post(apis.API_EDIT_ITEM + `/${model}`, params, {
+      compact: false
+    })
   }
 
   getItemDetail = (params = {}) => {

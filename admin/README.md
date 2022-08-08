@@ -20,7 +20,7 @@ npm install koa-sequelize-admin --save
   * fields[key] or fields[key].name: ''
   * fields[key]
     * format
-      * type: 'image' | 'link' | 'tooltip'
+      * type: 'image' | 'link' | 'tooltip' | 'bytes'
       * text: '文本格式'
       * link: '链接格式'
     * component: 'input' | 'textarea' | 'password' | 'number' | 'select' | 'switch' | 'date' | 'time' | 'dateTime' | 'transfer' | 'editor'

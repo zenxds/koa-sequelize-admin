@@ -71,14 +71,14 @@ export function get(url, params = {}, config = {}) {
     Object.assign(config, {
       method: 'get',
       url,
-      params: compact(params),
+      params: config.compact === false ? param : compact(params),
     }),
   )
 }
 
 export function post(url, data, config = {}) {
   if (isPlainObject(data)) {
-    data = param(compact(data))
+    data = param(config.compact === false ? data : compact(data))
   }
 
   return request(

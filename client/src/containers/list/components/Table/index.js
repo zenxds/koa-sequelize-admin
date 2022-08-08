@@ -6,7 +6,7 @@ import { Table, Tooltip, message } from '@dx/xbee'
 import { DxTableBtn } from '@dx/xpanda'
 
 import Base from '@components/BasePage/SearchTable/Table'
-import { pick, substitute, isObject } from '@utils'
+import { pick, substitute, isObject, formatBytes } from '@utils'
 
 @inject('actions', 'store')
 @observer
@@ -132,6 +132,10 @@ export default class PageTable extends Base {
 
           if (format.type === 'image') {
             return <img src={v} style={{ maxWidth: 120 }} />
+          }
+
+          if (format.type === 'bytes') {
+            return formatBytes(v)
           }
 
           if (format.type === 'link') {
