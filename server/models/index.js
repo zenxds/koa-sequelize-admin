@@ -21,7 +21,7 @@ each(models, model => {
     adminService.register(model, model.admin)
   }
 })
-adminService.initAssociations()
+adminService.setup()
 
 const { User, AuthToken } = models
 User.addHook('afterCreate', 'generateAuthToken', (user) => {

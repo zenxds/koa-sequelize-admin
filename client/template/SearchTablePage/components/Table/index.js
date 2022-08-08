@@ -5,7 +5,7 @@ import { Table, Tooltip, message } from '@dx/xbee'
 import { DxFormModal, DxTableBtn } from '@dx/xpanda'
 
 import Base from '@components/BasePage/SearchTable/Table'
-import { pick, compact } from '@utils'
+import { pick } from '@utils'
 
 import ItemForm from '../ItemForm'
 
@@ -37,7 +37,7 @@ export default class PageTable extends Base {
     actions.merge({
       loading: true,
     })
-    const data = await actions.getList(compact(query))
+    const data = await actions.getList(query)
     actions.merge({
       loading: false,
     })

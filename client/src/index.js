@@ -9,7 +9,9 @@ import { ConfigProvider } from '@dx/xbee'
 import zhCN from '@dx/xbee/es/locale/zh_CN'
 
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import 'dayjs/locale/zh-cn'
+dayjs.extend(utc)
 dayjs.locale('zh-cn')
 
 import { getPopupContainer, getPublicPath } from '@utils'

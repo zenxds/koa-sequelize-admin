@@ -1,15 +1,14 @@
 import { observable } from 'mobx'
 
 class Store {
-  // 触发获取数据用
-  @observable pageFetchId = 0
-  // 查询条件
-  @observable pageConditions = observable.map({})
+  @observable loading = false
 
   @observable model = ''
   @observable config = {}
 
-  @observable loading = false
+  getFieldOptions(field) {
+    return this.config.associationOptions[field] || this.config.admin.fields[field]?.options || []
+  }
 }
 
 export default new Store()

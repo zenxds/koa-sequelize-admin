@@ -6,28 +6,30 @@ class MyTransfer extends Component {
     super(props)
 
     this.state = {
-      targetKeys: props.targetKeys || [],
-      selectedKeys: props.selectedKeys || []
+      value: props.value || [],
     }
   }
 
-  handleChange = (nextTargetKeys, direction, moveKeys) => {
-    this.setState({ targetKeys: nextTargetKeys })
-    // 必须，否则数据不会变化
-    this.props.onChange && this.props.onChange(nextTargetKeys, direction, moveKeys)
+  static getDerivedStateFromProps(nextProps) {
+    return 'value' in nextProps
+      ? {
+          value: nextProps.value,
+        }
+      : null
   }
 
-  handleSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-    this.setState({ selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] })
+  handleChange = (nextTargetKeys, direction, moveKeys) => {
+    this.setState({ value: nextTargetKeys })
+    // 必须，否则数据不会变化
+    this.props.onChange &&
+      this.props.onChange(nextTargetKeys, direction, moveKeys)
   }
 
   render() {
     return (
       <Transfer
         {...this.props}
-        targetKeys={this.state.targetKeys}
-        selectedKeys={this.state.selectedKeys}
-        onSelectChange={this.handleSelectChange}
+        targetKeys={this.state.value}
         onChange={this.handleChange}
       />
     )

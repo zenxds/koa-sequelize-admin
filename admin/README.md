@@ -16,7 +16,6 @@ npm install koa-sequelize-admin --save
 * listFields: []
 * filterFields: []
 * searchFields: []
-
 * fields: {}
   * fields[key] or fields[key].name: ''
   * fields[key]
@@ -26,7 +25,10 @@ npm install koa-sequelize-admin --save
       * link: '链接格式'
     * component: 'input' | 'textarea' | 'password' | 'number' | 'select' | 'switch' | 'date' | 'time' | 'dateTime' | 'transfer' | 'editor'
     * required
-    * tip
-    * options
-    * editable
     * defaultValue
+    * options
+    * tip
+    * editable
+* associations: {}
+  * fields[key]
+    * visible

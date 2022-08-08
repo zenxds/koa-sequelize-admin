@@ -96,7 +96,7 @@ module.exports = (sequelize) => {
   User.admin = {
     name: '用户',
     format: '{{ username }}',
-    listFields: ['id', 'username', 'email', 'roles', 'isSuperAdmin', 'isActive'],
+    // listFields: ['id', 'username', 'email', 'roles', 'isSuperAdmin', 'isActive'],
     filterFields: ['roles'],
     searchFields: ['username', 'email'],
     fields: {
@@ -117,6 +117,12 @@ module.exports = (sequelize) => {
       isActive: {
         type: 'boolean',
         name: '是否激活'
+      }
+    },
+
+    associations: {
+      tokens: {
+        visible: false
       }
     }
   }

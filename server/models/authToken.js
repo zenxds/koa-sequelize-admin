@@ -39,16 +39,21 @@ module.exports = (sequelize) => {
   AuthToken.admin = {
     name: 'Token',
     format: '{{ token }}',
-    listFields: ['id', 'token', 'description'],
-    filterFields: ['token'],
+    // listFields: ['id', 'token', 'description', 'createdAt'],
+    filterFields: [],
     searchFields: ['token'],
     fields: {
       id: 'ID',
-      token: 'Token',
-      description: {
-        name: '描述',
-        required: false
+      token: {
+        name: 'Token',
+        editable: false
       },
+      description: '描述',
+    },
+    associations: {
+      User: {
+        visible: false
+      }
     }
   }
 

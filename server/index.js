@@ -28,6 +28,7 @@ app.use(views(viewsPath, {
 
 app.use(async (ctx, next) => {
   ctx.state = {
+    isProduction: config.get('isProduction'),
     staticServer: config.get('staticServer'),
     staticVersion: config.get('staticVersion')
   }

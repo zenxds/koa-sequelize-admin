@@ -1,9 +1,9 @@
 import { createRef } from 'react'
 import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
+import dayjs from 'dayjs'
 import { Form, Button, message } from '@dx/xbee'
 
-import { compact } from '@utils'
 import BaseForm from '@components/BasePage/form'
 
 @inject('actions', 'store')
@@ -30,6 +30,10 @@ export default class AddForm extends BaseForm {
       if (field.defaultValue !== undefined) {
         ret[i] = field.defaultValue
       }
+
+      if (/^(date|dateTime|time)$/.test(field.component)) {
+        ret[i] = dayjs()
+      }
     }
 
     return ret
@@ -42,7 +46,7 @@ export default class AddForm extends BaseForm {
       loading: true
     })
 
-    const ret = await actions.createItem(compact(values))
+    const ret = await actions.createItem(this.formatValues(values))
     if (ret) {
       message.success('新增成功')
       this.props.history.push(`/model/${store.model}`)
@@ -54,11 +58,6 @@ export default class AddForm extends BaseForm {
   }
 
   render() {
-    const { store } = this.props
-    const { config } = store
-    const adminConfig = toJS(config.admin)
-    const fields = adminConfig.fields
-
     return (
       <Form
         ref={this.formRef}

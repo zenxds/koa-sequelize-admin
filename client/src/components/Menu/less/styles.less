@@ -1,6 +1,17 @@
 @import '~less/variables.less';
 @import '~less/fn.less';
 
+.logo {
+  position: absolute;
+  width: 100%;
+  height: @header-height;
+  left: 0;
+  top: 0;
+  .fn-hide-text();
+  .fn-image-set('./images/logo.png');
+  background-position: center center;
+}
+
 :global {
   .app-menu {
 

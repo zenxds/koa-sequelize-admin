@@ -1,4 +1,4 @@
-const { Op } = require("sequelize")
+const { Op } = require('sequelize')
 const adminUtil = require('./util')
 
 const defaultMiddleware = async(ctx, next) => {
@@ -7,6 +7,7 @@ const defaultMiddleware = async(ctx, next) => {
 
 module.exports = (router, admin) => {
   const middleware = admin.middleware || defaultMiddleware
+  const logger = admin.logger
   const modelCheck = async(ctx, next) => {
     const model = ctx.params.model
   
@@ -16,7 +17,7 @@ module.exports = (router, admin) => {
 
     const config = admin.getConfig(model)
     if (!config) {
-      return ctx.throw(400, 'model is not registered')
+      return ctx.throw(403, 'model is not registered')
     }
 
     ctx.model = model
@@ -29,16 +30,15 @@ module.exports = (router, admin) => {
     const page = parseInt(ctx.query.page || 1)
     const pageSize = parseInt(ctx.query.pageSize || 20)
     const { Model, config } = ctx
-    const include = adminUtil.getInclude(Model, config.admin.listFields)
-    const where = {}
+    const include = adminUtil.getInclude(Model, config.admin.listFields.concat(config.admin.filterFields))
     const filterFields = config.admin.filterFields.filter(item => ctx.query[item] !== undefined)
     const searchFields = config.admin.searchFields.filter(item => ctx.query[item] !== undefined)
+    const where = {}
 
     try {
       filterFields.forEach(item => {
         const association = Model.associations[item]
 
-        // 注意要在include里
         if (association) {
           // http://docs.sequelizejs.com/manual/tutorial/models-usage.html#eager-loading
           where['$' + `${item}.${association.target.primaryKeyAttribute}` + '$'] = ctx.query[item]
@@ -53,10 +53,10 @@ module.exports = (router, admin) => {
         }
       })
     } catch (err) {
-      console.log(err)
+      logger.error(err + '')
     }
 
-    const result = await config.Model.findAndCountAll({
+    const result = await Model.findAndCountAll({
       offset: (page - 1) * pageSize,
       limit: pageSize,
       distinct: true,
@@ -73,18 +73,18 @@ module.exports = (router, admin) => {
     }
   })
 
-  // router.get('/api/get', modelCheck, async (ctx) => {
-  //   const { Model, cfg } = ctx
-  //   const include = adminUtil.getInclude(cfg, cfg.adminConfig.fields)
-  //   const instance = await cfg.Model.findByPk(ctx.query.pk, {
-  //     include: include,
-  //   })
+  router.get('/api/get/:model', modelCheck, middleware, async (ctx) => {
+    const { Model, config } = ctx
+    const include = adminUtil.getInclude(Model, Object.keys(config.admin.associations))
+    const instance = await Model.findByPk(ctx.query.pk, {
+      include,
+    })
 
-  //   ctx.body = {
-  //     success: true,
-  //     data: instance,
-  //   }
-  // })
+    ctx.body = {
+      success: true,
+      data: instance,
+    }
+  })
 
   router.post('/api/create/:model', modelCheck, middleware, async (ctx) => {
     const body = ctx.request.body
@@ -130,6 +130,8 @@ module.exports = (router, admin) => {
         success: false,
         message: err + '',
       }
+
+      logger.error(err + '')
     }
   })
 
@@ -179,6 +181,8 @@ module.exports = (router, admin) => {
         success: false,
         message: err + '',
       }
+
+      logger.error(err + '')
     }
   })
 
@@ -189,7 +193,7 @@ module.exports = (router, admin) => {
     try {
       const instance = await Model.findByPk(body.pk)
 
-      // delete association
+      // set association null
       for (let i in Model.associations) {
         const association = Model.associations[i]
         await instance[association.accessors.set](null)
@@ -201,11 +205,12 @@ module.exports = (router, admin) => {
         success: true,
       }
     } catch (err) {
-      console.log(err)
       ctx.body = {
         success: false,
         message: err + '',
       }
+
+      logger.error(err + '')
     }
   })
 
@@ -229,13 +234,13 @@ module.exports = (router, admin) => {
 
   router.get('/api/config/:model', modelCheck, middleware, async (ctx) => {
     const { config } = ctx
-    await adminUtil.generateAssociationOptions(config, admin)
 
     ctx.body = {
       success: true,
       data: {
         name: config.name,
         admin: config.admin,
+        associationOptions: await admin.generateAssociationOptions(config),
       },
     }
   })

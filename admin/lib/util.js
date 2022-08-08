@@ -1,4 +1,4 @@
-const substitute = (exports.substitute = (str, o) => {
+exports.substitute = (str, o) => {
   return (str + '').replace(
     /\\?\{\{\s*([^{}\s]+)\s*\}\}/g,
     function (match, name) {
@@ -8,55 +8,32 @@ const substitute = (exports.substitute = (str, o) => {
       return o[name] == null ? '' : o[name]
     },
   )
-})
+}
+
+function unique(array) {
+  return Array.from(new Set(array))
+}
 
 /**
- * 获取模型需要include的所有模型
+ * 根据fields获取模型需要include的模型
  */
 exports.getInclude = (Model, fields) => {
   const include = []
 
+  fields = unique(fields)
+
   for (let i in Model.associations) {
     const association = Model.associations[i]
 
-    // 没有在fields就不需要
-    if (fields.indexOf(i) === -1) {
-      continue
+    if (fields.includes(i)) {
+      include.push({
+        model: association.target,
+        as: association.as,
+      })
     }
-
-    include.push({
-      model: association.target,
-      as: association.as,
-    })
   }
 
   return include
-}
-
-/**
- * 为关联的模型自动生成options
- */
-exports.generateAssociationOptions = async (config, admin) => {
-  const associations = config.Model.associations
-  const adminConfig = config.admin
-
-  for (let i in associations) {
-    const association = associations[i]
-    const target = association.target
-    const targetConfig = admin.getConfig(target.name)
-
-    if (!targetConfig) {
-      continue
-    }
-
-    const targetItems = await target.findAll()
-    adminConfig.associations[i].options = targetItems.map(item => {
-      return {
-        name: substitute(targetConfig.admin.format, item),
-        value: item[targetConfig.admin.primaryKey.fieldName],
-      }
-    })
-  }
 }
 
 /**

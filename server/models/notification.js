@@ -48,19 +48,34 @@ module.exports = (sequelize) => {
     name: '通知',
     format: '{{ name }}',
     listFields: ['id', 'name', 'description'],
-    filterFields: ['name'],
+    filterFields: [],
     searchFields: ['name'],
     fields: {
       id: 'ID',
-      token: 'Token',
-      description: {
-        name: '描述',
-        required: false
+      name: '名称',
+      description: '描述',
+      type: {
+        name: '通知类型',
+        options: [
+          {
+            name: '通知类型1',
+            value: '1'
+          },
+          {
+            name: '通知类型2',
+            value: '2'
+          }
+        ]
       },
-      type: '通知类型',
       data: {
         name: '通知数据',
         component: 'textarea'
+      }
+    },
+
+    associations: {
+      Tasks: {
+        visible: false
       }
     }
   }

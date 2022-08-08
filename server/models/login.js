@@ -43,9 +43,9 @@ module.exports = (sequelize) => {
 
   Login.admin = {
     name: '登陆',
+    group: '登陆',
     format: '{{ name }}',
-    listFields: ['id', 'name', 'description'],
-    filterFields: ['name'],
+    filterFields: [],
     searchFields: ['name'],
     fields: {
       id: 'ID',
@@ -54,10 +54,28 @@ module.exports = (sequelize) => {
         name: '描述',
         required: false
       },
-      type: '登陆类型',
+      type: {
+        name: '登陆类型',
+        options: [
+          {
+            name: 'V2EX',
+            value: 'v2ex'
+          },
+          {
+            name: '淘宝',
+            value: 'taobao'
+          }
+        ]
+      },
       data: {
         name: '登陆数据',
         component: 'textarea'
+      }
+    },
+
+    associations: {
+      Tasks: {
+        visible: false
       }
     }
   }

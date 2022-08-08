@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react'
+import { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { Layout, Spin } from '@dx/xbee'
 
@@ -21,11 +21,22 @@ export default class Page extends Component {
     this.props.actions.getConfig(model)
   }
 
+  componentWillUnmount() {
+    this.props.actions.merge({
+      model: '',
+      config: {},
+    })
+  }
+
   render() {
     const { name } = this.props.store.config
 
     if (!name) {
-      return <Spin />
+      return (
+        <div className="page-loading">
+          <Spin />
+        </div>
+      )
     }
 
     return (

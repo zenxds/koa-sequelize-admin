@@ -66,10 +66,13 @@ module.exports = (sequelize) => {
     searchFields: ['name'],
     fields: {
       id: 'ID',
-      name: '名称',
+      name: {
+        name: '名称',
+        tip: '这是一段Tip',
+      },
       description: {
         name: '描述',
-        required: false
+        component: 'textarea',
       },
     }
   }

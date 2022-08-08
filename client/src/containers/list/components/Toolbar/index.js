@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
 import { Form, Button, Input, Select, Row, Col } from '@dx/xbee'
 
+import { unique } from '@utils'
 import Base from '@components/BasePage/SearchTable/FormToolbar'
 
 import './styles.less'
@@ -18,12 +19,10 @@ export default class PageToolbar extends Base {
 
   render() {
     const { store } = this.props
-    const conditions = toJS(store.pageConditions)
-    const adminConfig = toJS(store.config.admin)
-    const { fields, searchFields, associations } = adminConfig
-    const filterFields = adminConfig.filterFields.filter(item => {
-      return associations[item] && associations[item].options?.length > 0
-    })
+    const config = toJS(store.config)
+    const { admin: adminConfig } = config
+    const { fields, searchFields, filterFields, associations } = adminConfig
+    const fieldsToRender = unique(filterFields.concat(searchFields))
 
     return (
       <Fragment>
@@ -31,30 +30,29 @@ export default class PageToolbar extends Base {
           ref={this.formRef}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 20 }}
-          initialValues={conditions}
         >
           <Row gutter={20}>
-            {filterFields.map(item => {
-              const association = associations[item]
-              return (
-                <Col key={item} span={8}>
-                  <Form.Item label={association.name} name={item}>
-                    <Select placeholder="请选择" allowClear>
-                      {association.options.map(item => {
-                        return (
-                          <Select.Option key={item.value} value={item.value}>
-                            {item.name}
-                          </Select.Option>
-                        )
-                      })}
-                    </Select>
-                  </Form.Item>
-                </Col>
-              )
-            })}
+            {fieldsToRender.map(item => {
+              const options = store.getFieldOptions(item)
+              const field = fields[item] || associations[item]
 
-            {searchFields.map(item => {
-              const field = fields[item]
+              if (options.length) {
+                return (
+                  <Col key={item} span={8}>
+                    <Form.Item label={field.name} name={item}>
+                      <Select placeholder="请选择" allowClear>
+                        {options.map(item => {
+                          return (
+                            <Select.Option key={item.value} value={item.value}>
+                              {item.name}
+                            </Select.Option>
+                          )
+                        })}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                )
+              }
 
               return (
                 <Col key={item} span={8}>
@@ -63,7 +61,6 @@ export default class PageToolbar extends Base {
                       onChange={this.handleChange.bind(this, item)}
                       onPressEnter={this.handleSearch}
                       allowClear
-                      value={conditions[item]}
                       placeholder={'请输入' + field.name}
                     />
                   </Form.Item>

@@ -9,6 +9,7 @@ module.exports = {
   },
   extends: ['eslint:recommended', 'prettier'],
   globals: {
+    Set: true,
     Promise: true,
     Symbol: true,
     Proxy: true,

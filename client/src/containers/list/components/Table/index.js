@@ -3,10 +3,10 @@ import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
 import dayjs from 'dayjs'
 import { Table, Tooltip, message } from '@dx/xbee'
-import { DxFormModal, DxTableBtn } from '@dx/xpanda'
+import { DxTableBtn } from '@dx/xpanda'
 
 import Base from '@components/BasePage/SearchTable/Table'
-import { pick, compact, substitute, isObject } from '@utils'
+import { pick, substitute, isObject } from '@utils'
 
 @inject('actions', 'store')
 @observer
@@ -34,7 +34,7 @@ export default class PageTable extends Base {
     actions.merge({
       loading: true,
     })
-    const data = await actions.getList(compact(query))
+    const data = await actions.getList(query)
     actions.merge({
       loading: false,
     })
@@ -55,14 +55,15 @@ export default class PageTable extends Base {
   }
 
   submitDelete = async record => {
-    const { config, primaryKeyAttribute } = this.props.store
-    const r = await this.props.actions.deleteItem({
+    const { actions, store } = this.props
+    const { primaryKeyAttribute } = store
+    const r = await actions.deleteItem({
       pk: record[primaryKeyAttribute],
     })
 
     if (r) {
-      message.success(`删除成功`)
-      this.props.actions.resetConditions('page')
+      message.success('删除成功')
+      actions.resetConditions('page')
     }
   }
 
@@ -118,11 +119,11 @@ export default class PageTable extends Base {
           }
 
           if (component === 'date') {
-            return dayjs(v).format('YYYY')
+            return dayjs(v).format('YYYY-MM-DD')
           }
 
           if (component === 'dateTime') {
-            return dayjs(v).format('YYYY HH:mm:ss')
+            return dayjs(v).format('YYYY-MM-DD HH:mm:ss')
           }
 
           if (component === 'switch') {
@@ -179,7 +180,7 @@ export default class PageTable extends Base {
   }
 
   render() {
-    const { loading, config, primaryKeyAttribute } = this.props.store
+    const { loading, primaryKeyAttribute } = this.props.store
 
     return (
       <Fragment>

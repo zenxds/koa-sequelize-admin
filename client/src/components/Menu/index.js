@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { Component, Fragment } from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import { Menu } from '@dx/xbee'
 
@@ -23,7 +23,7 @@ class PageMenu extends Component {
     const menus = await this.props.menuActions.getMenus()
     if (menus) {
       this.setState({
-        menus
+        menus,
       })
     }
   }
@@ -48,38 +48,40 @@ class PageMenu extends Component {
     }
 
     return (
-      <Menu
-        mode="inline"
-        theme="dark"
-        defaultSelectedKeys={[pathname.split('/').pop()]}
-        onClick={this.handleClick}
-      >
-      {
-        menus.map(item => {
-          if (item.children) {
-            return (
-              <SubMenu key={item.name} title={item.name}>
-                {
-                  item.children.map(child => {
+      <Fragment>
+        <Link to="/" styleName="logo">
+          顶象技术
+        </Link>
+
+        <Menu
+          mode="inline"
+          theme="dark"
+          defaultSelectedKeys={[pathname.split('/').pop()]}
+          onClick={this.handleClick}
+        >
+          {menus.map(item => {
+            if (item.children) {
+              return (
+                <SubMenu key={item.name} title={item.name}>
+                  {item.children.map(child => {
                     return (
                       <Item key={child.key} pathname={`/model/${child.key}`}>
-                        { child.name }管理
+                        {child.name}管理
                       </Item>
                     )
-                  })
-                }
-              </SubMenu>
-            )
-          }
+                  })}
+                </SubMenu>
+              )
+            }
 
             return (
               <Item key={item.key} pathname={`/model/${item.key}`}>
-                { item.name }管理
+                {item.name}管理
               </Item>
             )
-          })
-        }
-      </Menu>
+          })}
+        </Menu>
+      </Fragment>
     )
   }
 }

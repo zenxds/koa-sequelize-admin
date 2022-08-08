@@ -2,6 +2,10 @@
  * 语言相关函数
  */
 
+export function unique(array) {
+  return Array.from(new Set(array))
+}
+
 /**
  * array to map by a key attribute
  */
@@ -33,7 +37,7 @@ export function pick(names, obj) {
  * 移除对象的falsey value
  * url参数提交时一般会用到 0，所以加上一个exclude参数
  */
-export function compact(object, exclude = [0, false]) {
+export function compact(object, exclude = [0, false, '']) {
   const ret = {}
 
   Object.keys(object).forEach(key => {
