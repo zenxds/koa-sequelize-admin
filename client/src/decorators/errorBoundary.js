@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Result } from '@dx/xbee'
+import { Result } from 'antd'
 
 export default WrappedComponent => {
   class ErrorBoundary extends Component {

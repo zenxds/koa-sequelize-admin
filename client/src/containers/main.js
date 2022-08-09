@@ -10,7 +10,7 @@ import {
   withRouter,
 } from 'react-router-dom'
 import loadable from '@loadable/component'
-import { Spin, Result } from '@dx/xbee'
+import { Spin, Result } from 'antd'
 
 import paths from '@constants/paths'
 import Header from '@components/Header'

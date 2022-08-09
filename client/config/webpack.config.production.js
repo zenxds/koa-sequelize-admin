@@ -80,7 +80,7 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        exclude: /(node_modules|theme|@dx\/xbee|@dx\/xpanda)/,
+        exclude: /(node_modules|theme|antd)/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -103,6 +103,8 @@ module.exports = {
             loader: 'less-loader',
             options: {
               lessOptions: {
+                javascriptEnabled: true,
+                math: 'always',
                 relativeUrls: false
               }
             }
@@ -110,7 +112,7 @@ module.exports = {
         ]
       },
       {
-        test: /(theme|xbee|xpanda)\.less$/,
+        test: /(theme|antd)\.less$/,
         use: [
           MiniCssExtractPlugin.loader,
           {

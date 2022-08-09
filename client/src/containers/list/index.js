@@ -1,6 +1,6 @@
-import { Component } from 'react'
+import { Component, Fragment } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Layout, Spin } from '@dx/xbee'
+import { Spin } from 'antd'
 
 import * as decorators from '@decorators'
 import Toolbar from './components/Toolbar'
@@ -40,10 +40,10 @@ export default class Page extends Component {
     }
 
     return (
-      <Layout.Main title={name + '管理'}>
+      <Fragment>
         <Toolbar history={this.props.history} />
         <Table history={this.props.history} />
-      </Layout.Main>
+      </Fragment>
     )
   }
 }

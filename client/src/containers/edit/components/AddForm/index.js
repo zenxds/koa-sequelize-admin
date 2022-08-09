@@ -2,7 +2,7 @@ import { createRef } from 'react'
 import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
 import dayjs from 'dayjs'
-import { Form, Button, message } from '@dx/xbee'
+import { Form, Button, message } from 'antd'
 
 import BaseForm from '@components/BasePage/form'
 

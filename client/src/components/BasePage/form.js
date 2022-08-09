@@ -8,9 +8,9 @@ import {
   TimePicker,
   Select,
   InputNumber,
-} from '@dx/xbee'
+  Transfer
+} from 'antd'
 
-import Transfer from '@components/Transfer'
 import TextAreaCount from '@components/TextAreaCount'
 
 import './form.less'
@@ -25,12 +25,17 @@ export default class ItemForm extends Component {
     })
   }
 
-  // transfer: 'targetKeys'
+  // checkbox/radio/switch checked
+  // transfer targetKeys
   getValuePropName(field) {
     const { component } = field
 
     if (component === 'switch') {
       return 'checked'
+    }
+
+    if (component === 'transfer') {
+      return 'targetKeys'
     }
 
     return 'value'
@@ -216,6 +221,7 @@ export default class ItemForm extends Component {
           key={key}
           label={association.name}
           name={key}
+          valuePropName={this.getValuePropName(association)}
         >
           { this.getComponent(association) }
         </Form.Item>

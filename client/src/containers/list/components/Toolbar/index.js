@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
-import { Form, Button, Input, Select, Row, Col } from '@dx/xbee'
+import { Form, Button, Input, Select, Row, Col } from 'antd'
 
 import { unique } from '@utils'
 import Base from '@components/BasePage/SearchTable/FormToolbar'

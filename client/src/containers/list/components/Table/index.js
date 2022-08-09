@@ -2,11 +2,12 @@ import React, { Fragment } from 'react'
 import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
 import dayjs from 'dayjs'
-import { Table, Tooltip, message } from '@dx/xbee'
-import { DxTableBtn } from '@dx/xpanda'
+import { Table, Tooltip, Modal, Space, message } from 'antd'
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons'
 
 import Base from '@components/BasePage/SearchTable/Table'
 import { pick, substitute, isObject, formatBytes } from '@utils'
+import './styles.less'
 
 @inject('actions', 'store')
 @observer
@@ -49,9 +50,23 @@ export default class PageTable extends Base {
     }
   }
 
-  handleEdit = (record) => {
+  handleEdit(record) {
     const { model, primaryKeyAttribute } = this.props.store
     this.props.history.push(`/model/${model}/edit/${record[primaryKeyAttribute]}`)
+  }
+
+  handleDelete(record) {
+    const { config } = this.props.store
+    const adminConfig = toJS(config.admin)
+    const title = `您确定要删除“${substitute(adminConfig.format, record)}”吗`
+
+    Modal.confirm({
+      title,
+      onOk: () => {
+        this.submitDelete(record)
+      },
+      // onCancel() {},
+    })
   }
 
   submitDelete = async record => {
@@ -165,17 +180,13 @@ export default class PageTable extends Base {
 
     columns.push({
       title: '操作',
-      dataIndex: 'id',
-      render: (id, record) => {
+      key: 'action',
+      render: (_, record) => {
         return (
-          <DxTableBtn.Group record={record}>
-            <DxTableBtn type="edit" onClick={this.handleEdit} />
-            <DxTableBtn
-              type="delete"
-              deleteTitle={`您确定要删除“${substitute(adminConfig.format, record)}”吗`}
-              onClick={this.submitDelete}
-            />
-          </DxTableBtn.Group>
+          <Space size="middle" styleName="actions">
+            <EditOutlined onClick={this.handleEdit.bind(this, record)} />
+            <DeleteOutlined onClick={this.handleDelete.bind(this, record)} />
+          </Space>
         )
       },
     })

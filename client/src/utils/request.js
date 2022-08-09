@@ -1,4 +1,4 @@
-import { message, Modal } from '@dx/xbee'
+import { message, Modal } from 'antd'
 import axios from 'axios'
 
 import { API_SERVER } from '@constants'

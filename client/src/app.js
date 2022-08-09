@@ -7,9 +7,7 @@ import {
 } from 'react-router-dom'
 
 import Main from './containers/main'
-
 import './less/theme.less'
-import '@dx/xpanda/xpanda.less'
 import './less/app.less'
 
 class App extends Component {

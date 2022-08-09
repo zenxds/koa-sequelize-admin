@@ -1,4 +1,4 @@
-@import '~@dx/xbee/color.less';
+@import '~antd/dist/antd.less';
 @import '~less/variables.less';
 @import '~less/fn.less';
 
@@ -10,13 +10,15 @@
   a {
     display: inline-block;
     vertical-align: top;
-    color: @black65;
+    color: @text-color;
     padding: 0 8px;
+    transition: none;
   }
 
   a:hover {
-    color: @main_color;
-    background: @main_bg_color;
+    // color: @primary-color;
+    color: #fff;
+    background: @primary-color-hover;
   }
 }
 
@@ -27,10 +29,4 @@
   height: @header-height;
   cursor: pointer;
   padding: 0 12px;
-
-  .user-name {
-    display: inline-block;
-    max-width: 160px;
-    .fn-text-overflow();
-  }
 }

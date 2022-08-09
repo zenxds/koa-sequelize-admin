@@ -2,7 +2,7 @@ import { createRef } from 'react'
 import { observer, inject } from 'mobx-react'
 import { toJS } from 'mobx'
 import dayjs from 'dayjs'
-import { Form, Button, message } from '@dx/xbee'
+import { Form, Modal, Button, message } from 'antd'
 
 import { isObject } from '@utils'
 import BaseForm from '@components/BasePage/form'
@@ -81,6 +81,37 @@ export default class EditForm extends BaseForm {
     this.formRef.current.submit()
   }
 
+  handleDelete = () => {
+    Modal.confirm({
+      title: '确定要删除该记录吗',
+      onOk: () => {
+        this.submitDelete()
+      },
+      // onCancel() {},
+    })
+  }
+
+  submitDelete = async() => {
+    const { actions, store, pk, history } = this.props
+
+    this.setState({
+      loading: true,
+    })
+
+    const r = await actions.deleteItem({
+      pk,
+    })
+
+    this.setState({
+      loading: false,
+    })
+
+    if (r) {
+      message.success('删除成功')
+      history.push(`/model/${store.model}`)
+    }
+  }
+
   onFinish = async values => {
     const { actions, store, pk } = this.props
     const { submitType } = this.state
@@ -137,6 +168,14 @@ export default class EditForm extends BaseForm {
             onClick={this.handleSubmit.bind(this, SUBMIT_AND_STAY)}
           >
             提交并继续编辑
+          </Button>
+          <Button
+            type="danger"
+            loading={this.state.loading}
+            style={{ marginLeft: 20 }}
+            onClick={this.handleDelete}
+          >
+            删除
           </Button>
         </Form.Item>
       </Form>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input } from '@dx/xbee'
+import { Input } from 'antd'
 
 const TextArea = Input.TextArea
 import './less/styles.less'

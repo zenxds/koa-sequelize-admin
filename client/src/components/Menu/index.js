@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
-import { Menu } from '@dx/xbee'
+import { Menu } from 'antd'
 
 import './less/styles.less'
 

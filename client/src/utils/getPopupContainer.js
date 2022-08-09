@@ -10,7 +10,7 @@ export function getPopupContainer(triggerNode) {
     element = element.parentNode
 
     if (
-      hasClass(element, 'xbee-modal-content') ||
+      hasClass(element, 'antd-modal-content') ||
       hasClass(element, 'app-content')
     ) {
       return element

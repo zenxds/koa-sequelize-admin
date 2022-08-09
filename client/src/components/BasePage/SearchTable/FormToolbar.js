@@ -1,5 +1,5 @@
 import { Component, createRef } from 'react'
-import { Button } from '@dx/xbee'
+import { Button } from 'antd'
 
 import './styles.less'
 

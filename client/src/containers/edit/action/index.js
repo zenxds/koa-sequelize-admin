@@ -17,6 +17,11 @@ class Actions extends BaseActions {
     })
   }
 
+  deleteItem = (params = {}) => {
+    const { model } = this.store
+    return this.post(apis.API_DELETE_ITEM + `/${model}`, params)
+  }
+
   getItemDetail = (params = {}) => {
     const { model } = this.store
     return this.get(apis.API_ITEM_DETAIL + `/${model}`, params)
