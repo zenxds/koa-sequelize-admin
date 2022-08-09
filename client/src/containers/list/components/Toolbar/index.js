@@ -4,6 +4,7 @@ import { toJS } from 'mobx'
 import { Form, Button, Input, Select, Row, Col } from 'antd'
 
 import { unique } from '@utils'
+import SearchableSelect from '@components/Select/SearchableSelect'
 import Base from '@components/BasePage/SearchTable/FormToolbar'
 
 import './styles.less'
@@ -44,7 +45,9 @@ export default class PageToolbar extends Base {
                 return (
                   <Col key={item} span={8}>
                     <Form.Item label={field.name} name={item}>
-                      <Select placeholder="请选择" allowClear>
+                      <SearchableSelect
+                        placeholder="请选择"
+                      >
                         {options.map(item => {
                           return (
                             <Select.Option key={item.value} value={item.value}>
@@ -52,7 +55,7 @@ export default class PageToolbar extends Base {
                             </Select.Option>
                           )
                         })}
-                      </Select>
+                      </SearchableSelect>
                     </Form.Item>
                   </Col>
                 )
