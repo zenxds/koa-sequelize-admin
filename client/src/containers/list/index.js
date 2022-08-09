@@ -1,8 +1,9 @@
-import { Component, Fragment } from 'react'
+import { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { Spin } from 'antd'
 
 import * as decorators from '@decorators'
+import LayoutMain from '@components/Layout/Main'
 import Toolbar from './components/Toolbar'
 import Table from './components/Table'
 import actions from './action'
@@ -40,10 +41,10 @@ export default class Page extends Component {
     }
 
     return (
-      <Fragment>
+      <LayoutMain title={`${name}管理`}>
         <Toolbar history={this.props.history} />
         <Table history={this.props.history} />
-      </Fragment>
+      </LayoutMain>
     )
   }
 }

@@ -43,7 +43,7 @@ module.exports = (sequelize) => {
 
   Login.admin = {
     name: '登陆',
-    group: '登陆',
+    // group: '登陆',
     format: '{{ name }}',
     filterFields: [],
     searchFields: ['name'],

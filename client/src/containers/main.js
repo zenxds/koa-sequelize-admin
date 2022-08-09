@@ -10,7 +10,7 @@ import {
   withRouter,
 } from 'react-router-dom'
 import loadable from '@loadable/component'
-import { Spin, Result } from 'antd'
+import { Spin, Layout, Result } from 'antd'
 
 import paths from '@constants/paths'
 import Header from '@components/Header'
@@ -31,15 +31,15 @@ function load(page) {
 export default class Main extends Component {
   render() {
     return (
-      <div className="app-root">
-        <div className="app-menu">
+      <Layout>
+        <Layout.Sider className="app-menu">
           <Menu />
-        </div>
-        <div className="app-wrapper">
-          <div className="app-header">
+        </Layout.Sider>
+        <Layout>
+          <Layout.Header className="app-header">
             <Header />
-          </div>
-          <div className="app-content">
+          </Layout.Header>
+          <Layout.Content className="app-content">
             <Switch>
               <Route exact path={paths.index} component={load('home')} />
               <Route exact path={paths.list} component={load('list')} />
@@ -49,9 +49,9 @@ export default class Main extends Component {
                 <Result status="404" />
               </Route>
             </Switch>
-          </div>
-        </div>
-      </div>
+          </Layout.Content>
+        </Layout>
+      </Layout>
     )
   }
 }

@@ -1,8 +1,9 @@
-import { Component, Fragment } from 'react'
+import { Component } from 'react'
 import { observer, inject } from 'mobx-react'
 import { Spin } from 'antd'
 
 import * as decorators from '@decorators'
+import LayoutMain from '@components/Layout/Main'
 import AddForm from './components/AddForm'
 import EditForm from './components/EditForm'
 import actions from './action'
@@ -40,15 +41,14 @@ export default class Page extends Component {
       )
     }
 
-    // name + (params.pk ? '编辑' : '新增')
     return (
-      <Fragment>
+      <LayoutMain title={name + (params.pk ? '编辑' : '新增')}>
         {params.pk ? (
           <EditForm history={this.props.history} pk={params.pk} />
         ) : (
           <AddForm history={this.props.history} />
         )}
-      </Fragment>
+      </LayoutMain>
     )
   }
 }
