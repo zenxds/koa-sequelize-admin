@@ -53,7 +53,13 @@ module.exports = (sequelize) => {
     fields: {
       id: 'ID',
       name: '名称',
-      description: '描述',
+      description: {
+        name: '描述',
+        component: 'editor',
+        format: {
+          type: 'tooltip'
+        }
+      },
       type: {
         name: '通知类型',
         options: [

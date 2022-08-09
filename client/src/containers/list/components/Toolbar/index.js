@@ -24,6 +24,10 @@ export default class PageToolbar extends Base {
     const { fields, searchFields, filterFields, associations } = adminConfig
     const fieldsToRender = unique(filterFields.concat(searchFields))
 
+    if (!fieldsToRender.length) {
+      return null
+    }
+
     return (
       <Fragment>
         <Form

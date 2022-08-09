@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
   Role.admin = {
     name: '角色',
     format: '{{ name }}',
-    searchFields: ['name'],
+    searchFields: [],
     fields: {
       id: 'ID',
       name: '角色名',

@@ -11,6 +11,7 @@ import {
   Transfer
 } from 'antd'
 
+import Editor from '@components/Editor'
 import TextAreaCount from '@components/TextAreaCount'
 
 import './form.less'
@@ -152,9 +153,11 @@ export default class ItemForm extends Component {
       )
     }
 
-    // if (component === 'editor') {
-
-    // }
+    if (component === 'editor') {
+      return (
+        <Editor />
+      )
+    }
 
     return <Input {...props} />
   }
