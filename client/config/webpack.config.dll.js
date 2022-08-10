@@ -13,7 +13,7 @@ module.exports = {
     vendor: Object.keys(dependencies)
   },
   output: {
-    path: path.join(__dirname, '../build'),
+    path: path.join(__dirname, '../data'),
     filename: '[name].js',
     library: '[name]'
   },
@@ -32,7 +32,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DllPlugin({
-      path: path.join(__dirname, '../tmp', 'manifest.json'),
+      path: path.join(__dirname, '../data', 'manifest.json'),
       name: '[name]'
     }),
   ]

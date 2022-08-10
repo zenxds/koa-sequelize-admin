@@ -11,6 +11,7 @@ import {
   Transfer
 } from 'antd'
 
+import SearchableSelect from '@components/Select/SearchableSelect'
 import Editor from '@components/Editor'
 import TextAreaCount from '@components/TextAreaCount'
 
@@ -104,7 +105,7 @@ export default class ItemForm extends Component {
 
     if (component === 'select') {
       return (
-        <Select {...props}>
+        <SearchableSelect {...props}>
           {options.map(item => {
             return (
               <Select.Option key={item.value} value={item.value}>
@@ -112,7 +113,7 @@ export default class ItemForm extends Component {
               </Select.Option>
             )
           })}
-        </Select>
+        </SearchableSelect>
       )
     }
 

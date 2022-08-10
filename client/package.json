@@ -5,7 +5,7 @@
   "main": "build/main.js",
   "scripts": {
     "start": "cross-env BABEL_ENV=development webpack server --hot --env env=development",
-    "vendor": "webpack --progress --env env=dll && mv build/vendor.js data/ && mv tmp/manifest.json data/",
+    "vendor": "webpack --progress --env env=dll",
     "_build": "cross-env BABEL_ENV=production webpack --progress --env env=production",
     "build": "npm run vendor && npm run _build",
     "prettier": "prettier --write 'src/**/*.js' 'src/**/*.jsx'",
