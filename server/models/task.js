@@ -50,6 +50,13 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
+
+      virtual: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return this.data
+        }
+      },
     },
     {
       sequelize,

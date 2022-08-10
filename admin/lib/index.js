@@ -1,3 +1,4 @@
+const { DataTypes } = require('sequelize')
 const route = require('./route')
 const adminUtil = require('./util')
 const { attributeComponentMap, associationComponentMap } = require('./constants')
@@ -55,8 +56,13 @@ class Admin {
     for (let i in attributes) {
       const attribute = attributes[i]
 
-      // 外键字段
-      if (attribute.references || excludeFields.includes(attribute.fieldName)) {
+      // 外键字段或者虚拟字段
+      if (attribute.references || attribute.type instanceof DataTypes.VIRTUAL) {
+        continue
+      }
+
+      // exclude
+      if (excludeFields.includes(attribute.fieldName)) {
         continue
       }
 
@@ -122,7 +128,7 @@ class Admin {
 
       if (typeof attribute.format === 'string') {
         attribute.format = {
-          type: attributes[i].format
+          type: attribute.format
         }
       }
 
