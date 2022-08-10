@@ -45,6 +45,7 @@ module.exports = (sequelize) => {
     name: '登陆',
     // group: '登陆',
     format: '{{ name }}',
+    // excludeFields: ['description'],
     filterFields: [],
     searchFields: ['name'],
     fields: {

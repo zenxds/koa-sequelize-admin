@@ -53,6 +53,7 @@ export default class EditForm extends BaseForm {
 
       if (/^(date|dateTime|time)$/.test(field.component)) {
         ret[i] = dayjs(val)
+        continue
       }
 
       ret[i] = val

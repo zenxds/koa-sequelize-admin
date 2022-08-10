@@ -4,6 +4,7 @@ import { EditorState, ContentState, convertToRaw } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
 import axios from 'axios'
+import { Modal } from 'antd'
 
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import './editor.less'
@@ -58,15 +59,27 @@ export default class MyEditor extends Component {
                 formData.append('image', file)
 
                 return axios({
-                  url: '/upload',
+                  url: 'https://fe.dingxiang-inc.com/upload/image',
                   method: 'POST',
                   data: formData,
-                }).then(resp => {
-                  return {
-                    data: {
-                      link: 'images/' + resp.path
+                }).then(response => {
+                  const { success, data, message } = response.data
+
+                  if (success) {
+                    return {
+                      data: {
+                        link: 'https://cdn.dingxiang-inc.com/images/' + data.path
+                      }
                     }
+                  } else {
+                    throw new Error(message || '上传失败')
                   }
+                }).catch(err => {
+                  Modal.error({
+                    title: err.message,
+                    content: err + ''
+                  })
+                  throw err
                 })
               }
             }
