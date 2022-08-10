@@ -49,7 +49,7 @@ class Admin {
     return 'input'
   }
 
-  getAttributes(Model, excludeFields) {
+  getAttributes(Model, excludeFields = []) {
     const attributes = Model.getAttributes()
     const ret = {}
 
