@@ -10,7 +10,7 @@ export function getPopupContainer(triggerNode) {
     element = element.parentNode
 
     if (
-      hasClass(element, 'antd-modal-content') ||
+      hasClass(element, 'ant-modal-content') ||
       hasClass(element, 'app-content')
     ) {
       return element
