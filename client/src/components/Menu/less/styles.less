@@ -7,7 +7,12 @@
   height: @header-height;
   left: 0;
   top: 0;
-  .fn-hide-text();
-  .fn-image-set('./images/logo.png');
-  background-position: center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-width: 80%;
+    max-height: 70%;
+  }
 }

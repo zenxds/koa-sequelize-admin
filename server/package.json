@@ -18,6 +18,7 @@
     "config": "^3.3.7",
     "koa": "^2.13.4",
     "koa-body": "^5.0.0",
+    "koa-static": "^5.0.0",
     "koa-views": "^8.0.0",
     "mysql2": "^2.3.3",
     "nunjucks": "^3.2.3",

@@ -50,7 +50,7 @@ class PageMenu extends Component {
     return (
       <Fragment>
         <Link to="/" styleName="logo">
-          顶象技术
+          <img src={`${__webpack_public_path__}images/logo.png`} />
         </Link>
 
         <Menu

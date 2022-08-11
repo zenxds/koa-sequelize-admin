@@ -18,6 +18,7 @@ app.use(
     formLimit: '100mb',
   }),
 )
+app.use(require('koa-static')(path.join(__dirname, '../client/data')))
 app.use(views(viewsPath, {
   map: {
     html: 'nunjucks'

@@ -49,15 +49,32 @@ class Admin {
     return 'input'
   }
 
+  getForeignKeyFields(Model) {
+    const associations = Model.associations
+    const ret = {}
+
+    for (let i in associations) {
+      const association = associations[i]
+      const { associationType, foreignKey } = association
+
+      if (associationType === 'BelongsTo') {
+        ret[foreignKey] = 1
+      }
+    }
+
+    return ret
+  }
+
   getAttributes(Model, excludeFields = []) {
     const attributes = Model.getAttributes()
+    const foreignKeyFields = this.getForeignKeyFields(Model)
     const ret = {}
 
     for (let i in attributes) {
       const attribute = attributes[i]
 
       // 外键字段或者虚拟字段
-      if (attribute.references || attribute.type instanceof DataTypes.VIRTUAL) {
+      if (foreignKeyFields[i] || attribute.type instanceof DataTypes.VIRTUAL) {
         continue
       }
 
