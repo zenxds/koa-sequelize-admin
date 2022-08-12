@@ -74,7 +74,7 @@ class Admin {
       const attribute = attributes[i]
 
       // 外键字段或者虚拟字段
-      if (foreignKeyFields[i] || attribute.type instanceof DataTypes.VIRTUAL) {
+      if (attribute.references || foreignKeyFields[i] || attribute.type instanceof DataTypes.VIRTUAL) {
         continue
       }
 
@@ -128,6 +128,7 @@ class Admin {
       listFields: Object.keys(attributes),
       filterFields: [],
       searchFields: [],
+      sortFields: [],
       associations: {}
     }, adminConfig)
 

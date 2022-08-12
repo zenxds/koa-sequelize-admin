@@ -97,6 +97,7 @@ module.exports = (sequelize) => {
     name: '用户',
     format: '{{ username }}',
     // listFields: ['id', 'username', 'email', 'roles', 'isSuperAdmin', 'isActive'],
+    sortFields: ['createdAt'],
     filterFields: ['roles'],
     searchFields: ['username', 'email'],
     fields: {

@@ -29,11 +29,20 @@ module.exports = (router, admin) => {
   router.get('/api/list/:model', modelCheck, middleware, async (ctx) => {
     const page = parseInt(ctx.query.page || 1)
     const pageSize = parseInt(ctx.query.pageSize || 20)
+    const { orderField, orderDirection } = ctx.query
     const { Model, config } = ctx
     const include = adminUtil.getInclude(Model, config.admin.listFields.concat(config.admin.filterFields))
     const filterFields = config.admin.filterFields.filter(item => ctx.query[item] !== undefined)
     const searchFields = config.admin.searchFields.filter(item => ctx.query[item] !== undefined)
     const where = {}
+    const order = []
+
+    if (orderField) {
+      order.push([
+        orderField,
+        orderDirection || 'ASC'
+      ])
+    }
 
     try {
       filterFields.forEach(item => {
@@ -60,8 +69,9 @@ module.exports = (router, admin) => {
       offset: (page - 1) * pageSize,
       limit: pageSize,
       distinct: true,
-      include: include,
-      where: where,
+      include,
+      where,
+      order
     })
 
     ctx.body = {

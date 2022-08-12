@@ -28,7 +28,7 @@ export default class PageTable extends Base {
 
     query = Object.assign(
       toJS(store.pageConditions),
-      pick(['page', 'pageSize'], this.state),
+      pick(['page', 'pageSize', 'orderField', 'orderDirection'], this.state),
       query,
     )
 
@@ -85,7 +85,7 @@ export default class PageTable extends Base {
   getColumns() {
     const { config } = this.props.store
     const adminConfig = toJS(config.admin)
-    const { fields, associations, listFields } = adminConfig
+    const { fields, associations, listFields, sortFields } = adminConfig
 
     const columns = listFields.map(item => {
       // 列表支持展示关联字段
@@ -118,6 +118,7 @@ export default class PageTable extends Base {
       return {
         title: field.name,
         dataIndex: item,
+        sorter: sortFields.includes(item),
         render: (v, record) => {
           if (v == null || v === '') {
             return ''
@@ -205,6 +206,7 @@ export default class PageTable extends Base {
           rowKey={record => record[primaryKeyAttribute]}
           dataSource={this.getDataSource()}
           pagination={this.getPagination()}
+          onChange={this.handleTableChange}
         />
       </Fragment>
     )

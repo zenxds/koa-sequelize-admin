@@ -29,8 +29,29 @@ export default class PageTable extends Component {
     )
   }
 
-  handlePageChange = async (page, pageSize) => {
-    return this.fetchData({ page, pageSize })
+  // handlePageChange = async (page, pageSize) => {
+  //   return this.fetchData({ page, pageSize })
+  // }
+
+  handleTableChange = (pagination, filters, sorter) => {
+    const orderDirectionMap = {
+      ascend: 'ASC',
+      descend: 'DESC'
+    }
+    const query = {
+      page: pagination.current,
+      pageSize: pagination.pageSize
+    }
+    const order = sorter.order ? {
+      orderField: sorter.field,
+      orderDirection: orderDirectionMap[sorter.order]
+    } : {
+      orderField: '',
+      orderDirection: ''
+    }
+
+    this.setState(order)
+    this.fetchData(Object.assign(query, order))
   }
 
   getDataSource() {
@@ -48,8 +69,8 @@ export default class PageTable extends Component {
       pageSize: pageSize,
       showSizeChanger: true,
       showQuickJumper: true,
-      onChange: this.handlePageChange,
-      onShowSizeChange: this.handlePageChange,
+      // onChange: this.handlePageChange,
+      // onShowSizeChange: this.handlePageChange,
     }
   }
 }
