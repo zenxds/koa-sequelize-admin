@@ -47,6 +47,7 @@ module.exports = (sequelize) => {
   Key.admin = {
     name: '条目',
 
+    listFields: ['name', 'description', 'namespace'],
     filterFields: ['namespace'],
     searchFields: ['name'],
 

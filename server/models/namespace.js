@@ -48,6 +48,9 @@ module.exports = (sequelize) => {
     name: '空间',
     format: '{{ name }}',
 
+    listFields: ['id', 'name', 'description', 'project'],
+    filterFields: ['project'],
+
     fields: {
       name: '名称',
       description: '描述'
