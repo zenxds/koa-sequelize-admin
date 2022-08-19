@@ -15,17 +15,18 @@ function unique(array) {
 }
 
 /**
- * 根据fields获取模型需要include的模型
+ * 获取模型需要include的模型
  */
-exports.getInclude = (Model, fields) => {
+exports.getInclude = (Model, options={}) => {
   const include = []
 
-  fields = unique(fields)
+  const { includeAll } = options
+  const keys = unique(options.keys || [])
 
   for (let i in Model.associations) {
     const association = Model.associations[i]
 
-    if (fields.includes(i)) {
+    if (includeAll || keys.includes(i)) {
       include.push({
         model: association.target,
         as: association.as,

@@ -1,16 +1,16 @@
 const { Op } = require('sequelize')
 const adminUtil = require('./util')
 
-const defaultMiddleware = async(ctx, next) => {
+const defaultMiddleware = async (ctx, next) => {
   await next()
 }
 
 module.exports = (router, admin) => {
   const middleware = admin.middleware || defaultMiddleware
   const logger = admin.logger
-  const modelCheck = async(ctx, next) => {
+  const modelCheck = async (ctx, next) => {
     const model = ctx.params.model
-  
+
     if (!model) {
       return ctx.throw(400, 'model is required')
     }
@@ -26,22 +26,26 @@ module.exports = (router, admin) => {
     await next()
   }
 
-  router.get('/api/list/:model', modelCheck, middleware, async (ctx) => {
-    const page = parseInt(ctx.query.page || 1)
+  router.get('/api/list/:model', modelCheck, middleware, async ctx => {
+    const page = ctx.query.page ? parseInt(ctx.query.page) : 0
     const pageSize = parseInt(ctx.query.pageSize || 20)
-    const { orderField, orderDirection } = ctx.query
     const { Model, config } = ctx
-    const include = adminUtil.getInclude(Model, config.admin.listFields.concat(config.admin.filterFields))
-    const filterFields = config.admin.filterFields.filter(item => ctx.query[item] !== undefined)
-    const searchFields = config.admin.searchFields.filter(item => ctx.query[item] !== undefined)
+    const { orderField, orderDirection, includeAll } = ctx.query
+    const filterFields = config.admin.filterFields.filter(
+      item => ctx.query[item] !== undefined,
+    )
+    const searchFields = config.admin.searchFields.filter(
+      item => ctx.query[item] !== undefined,
+    )
+    const include = adminUtil.getInclude(Model, {
+      includeAll,
+      keys: config.admin.listFields.concat(config.admin.filterFields),
+    })
     const where = {}
     const order = []
 
     if (orderField) {
-      order.push([
-        orderField,
-        orderDirection || 'ASC'
-      ])
+      order.push([orderField, orderDirection || 'ASC'])
     }
 
     try {
@@ -49,8 +53,14 @@ module.exports = (router, admin) => {
         const association = Model.associations[item]
 
         if (association) {
-          // http://docs.sequelizejs.com/manual/tutorial/models-usage.html#eager-loading
-          where['$' + `${item}.${association.target.primaryKeyAttribute}` + '$'] = ctx.query[item]
+          const includeItem = include.find(
+            item => item.model === association.target,
+          )
+          if (includeItem) {
+            includeItem.where = {
+              [association.target.primaryKeyAttribute]: ctx.query[item],
+            }
+          }
         } else {
           where[item] = ctx.query[item]
         }
@@ -58,34 +68,46 @@ module.exports = (router, admin) => {
 
       searchFields.forEach(item => {
         where[item] = {
-          [Op.like]: `%${ctx.query[item]}%`
+          [Op.like]: `%${ctx.query[item]}%`,
         }
       })
     } catch (err) {
       logger.error(err + '')
     }
 
-    const result = await Model.findAndCountAll({
-      offset: (page - 1) * pageSize,
-      limit: pageSize,
-      distinct: true,
-      include,
-      where,
-      order
-    })
+    if (page) {
+      const result = await Model.findAndCountAll({
+        offset: (page - 1) * pageSize,
+        limit: pageSize,
+        include,
+        where,
+        order,
+      })
 
-    ctx.body = {
-      success: true,
-      data: {
-        count: result.count,
-        rows: result.rows,
-      },
+      ctx.body = {
+        success: true,
+        data: {
+          count: result.count,
+          rows: result.rows,
+        },
+      }
+    } else {
+      const result = await Model.findAll({
+        include,
+        where,
+        order,
+      })
+
+      ctx.body = {
+        success: true,
+        data: result,
+      }
     }
   })
 
-  router.get('/api/get/:model', modelCheck, middleware, async (ctx) => {
-    const { Model, config } = ctx
-    const include = adminUtil.getInclude(Model, Object.keys(config.admin.associations))
+  router.get('/api/get/:model', modelCheck, middleware, async ctx => {
+    const { Model } = ctx
+    const include = adminUtil.getInclude(Model, { includeAll: true })
     const instance = await Model.findByPk(ctx.query.pk, {
       include,
     })
@@ -96,13 +118,19 @@ module.exports = (router, admin) => {
     }
   })
 
-  router.post('/api/create/:model', modelCheck, middleware, async (ctx) => {
+  router.post('/api/create/:model', modelCheck, middleware, async ctx => {
     const body = ctx.request.body
     const { Model } = ctx
-    const { attrParams, associationParams } = adminUtil.separateParams(Model, body)
+    const { attrParams, associationParams } = adminUtil.separateParams(
+      Model,
+      body,
+    )
 
+    const t = await Model.sequelize.transaction()
     try {
-      const instance = await Model.create(attrParams)
+      const instance = await Model.create(attrParams, {
+        transaction: t,
+      })
 
       for (let i in Model.associations) {
         const association = Model.associations[i]
@@ -114,28 +142,32 @@ module.exports = (router, admin) => {
 
         if (/^(BelongsTo|HasOne)$/.test(association.associationType)) {
           const target = await association.target.findByPk(value)
-          await instance[association.accessors.set](
-            target,
-          )
+          await instance[association.accessors.set](target, {
+            transaction: t,
+          })
         }
 
         if (/^(HasMany|BelongsToMany)$/.test(association.associationType)) {
           const targets = await association.target.findAll({
             where: {
-              [association.target.primaryKeyAttribute]: Array.isArray(value) ? value : value.split(','),
+              [association.target.primaryKeyAttribute]: Array.isArray(value)
+                ? value
+                : value.split(','),
             },
           })
-          await instance[association.accessors.set](
-            targets,
-          )
+          await instance[association.accessors.set](targets, {
+            transaction: t,
+          })
         }
       }
 
+      await t.commit()
       ctx.body = {
         success: true,
-        data: instance
+        data: instance,
       }
     } catch (err) {
+      await t.rollback()
       ctx.body = {
         success: false,
         message: err + '',
@@ -145,15 +177,21 @@ module.exports = (router, admin) => {
     }
   })
 
-  router.post('/api/edit/:model', modelCheck, middleware, async (ctx) => {
+  router.post('/api/edit/:model', modelCheck, middleware, async ctx => {
     const body = ctx.request.body
     const { Model } = ctx
     const { pk } = body
-    const { attrParams, associationParams } = adminUtil.separateParams(Model, body)
+    const { attrParams, associationParams } = adminUtil.separateParams(
+      Model,
+      body,
+    )
 
+    const t = await Model.sequelize.transaction()
     try {
       const instance = await Model.findByPk(pk)
-      await instance.update(attrParams)
+      await instance.update(attrParams, {
+        transaction: t,
+      })
 
       for (let i in Model.associations) {
         const association = Model.associations[i]
@@ -165,28 +203,32 @@ module.exports = (router, admin) => {
 
         if (/^(BelongsTo|HasOne)$/.test(association.associationType)) {
           const target = await association.target.findByPk(value)
-          await instance[association.accessors.set](
-            target,
-          )
+          await instance[association.accessors.set](target, {
+            transaction: t,
+          })
         }
 
         if (/^(HasMany|BelongsToMany)$/.test(association.associationType)) {
           const targets = await association.target.findAll({
             where: {
-              [association.target.primaryKeyAttribute]: Array.isArray(value) ? value : value.split(','),
+              [association.target.primaryKeyAttribute]: Array.isArray(value)
+                ? value
+                : value.split(','),
             },
           })
-          await instance[association.accessors.set](
-            targets,
-          )
+          await instance[association.accessors.set](targets, {
+            transaction: t,
+          })
         }
       }
 
+      await t.commit()
       ctx.body = {
         success: true,
-        data: instance
+        data: instance,
       }
     } catch (err) {
+      await t.rollback()
       ctx.body = {
         success: false,
         message: err + '',
@@ -196,18 +238,18 @@ module.exports = (router, admin) => {
     }
   })
 
-  router.post('/api/delete/:model', modelCheck, middleware, async (ctx) => {
+  router.post('/api/delete/:model', modelCheck, middleware, async ctx => {
     const body = ctx.request.body
     const { Model } = ctx
-    
+
     try {
       const instance = await Model.findByPk(body.pk)
 
       // set association null
-      for (let i in Model.associations) {
-        const association = Model.associations[i]
-        await instance[association.accessors.set](null)
-      }
+      // for (let i in Model.associations) {
+      //   const association = Model.associations[i]
+      //   await instance[association.accessors.set](null)
+      // }
 
       await instance.destroy()
 
@@ -227,7 +269,7 @@ module.exports = (router, admin) => {
   /**
    * only to generate menu
    */
-  router.get('/api/config', middleware, async (ctx) => {
+  router.get('/api/config', middleware, async ctx => {
     const config = admin.getConfig()
 
     ctx.body = {
@@ -242,7 +284,7 @@ module.exports = (router, admin) => {
     }
   })
 
-  router.get('/api/config/:model', modelCheck, middleware, async (ctx) => {
+  router.get('/api/config/:model', modelCheck, middleware, async ctx => {
     const { config } = ctx
 
     ctx.body = {

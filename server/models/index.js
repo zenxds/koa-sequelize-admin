@@ -23,14 +23,6 @@ each(models, model => {
 })
 adminService.setup()
 
-const { User, AuthToken } = models
-User.addHook('afterCreate', 'generateAuthToken', (user) => {
-  AuthToken.create({
-    token: AuthToken.generate(),
-    userId: user.id
-  })
-})
-
 sequelize.sync()
 
 module.exports = models
