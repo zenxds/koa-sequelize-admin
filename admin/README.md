@@ -17,6 +17,7 @@ npm install koa-sequelize-admin --save
 * listFields: []
 * filterFields: []
 * searchFields: []
+* orderFields: []
 * fields: {}
   * fields[key] or fields[key].name: ''
   * fields[key]

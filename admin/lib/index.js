@@ -128,7 +128,7 @@ class Admin {
       listFields: Object.keys(attributes),
       filterFields: [],
       searchFields: [],
-      sortFields: [],
+      orderFields: [],
       associations: {}
     }, adminConfig)
 

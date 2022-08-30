@@ -85,7 +85,7 @@ export default class PageTable extends Base {
   getColumns() {
     const { config } = this.props.store
     const adminConfig = toJS(config.admin)
-    const { fields, associations, listFields, sortFields } = adminConfig
+    const { fields, associations, listFields, orderFields } = adminConfig
 
     const columns = listFields.map(item => {
       // 列表支持展示关联字段
@@ -118,7 +118,7 @@ export default class PageTable extends Base {
       return {
         title: field.name,
         dataIndex: item,
-        sorter: sortFields.includes(item),
+        sorter: orderFields.includes(item),
         render: (v, record) => {
           if (v == null || v === '') {
             return ''
