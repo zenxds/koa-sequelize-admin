@@ -80,6 +80,7 @@ module.exports = (router, admin) => {
         offset: (page - 1) * pageSize,
         limit: pageSize,
         include,
+        distinct: true,
         where,
         order,
       })
