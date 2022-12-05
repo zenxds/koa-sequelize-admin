@@ -37,9 +37,16 @@ module.exports = (sequelize) => {
   Project.admin = {
     name: '项目',
     format: '{{ name }}',
+    orderFields: ['id'],
 
     fields: {
-      name: '名称',
+      name: {
+        name: '名称',
+        format: {
+          type: 'link',
+          link: '{{ id }}'
+        }
+      },
       description: '描述'
     },
 

@@ -12,13 +12,15 @@ class Actions extends BaseActions {
     config.forEach(item => {
       const group = item.admin.group
       if (group) {
-        groups[group] = groups[group] || []
-        groups[group].push(item)
+        if (!groups[group]) {
+          groups[group] = []
+          ret.push({
+            name: group,
+            children: groups[group]
+          })
+        }
 
-        ret.push({
-          name: group,
-          children: groups[group]
-        })
+        groups[group].push(item)
       } else {
         ret.push(item)
       }
