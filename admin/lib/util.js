@@ -10,6 +10,20 @@ exports.substitute = (str, o) => {
   )
 }
 
+exports.camelCase = (str, isBig) => {
+  const ret = str
+    .replace(/([a-z\d])([A-Z])/g, '$1-$2')
+    .toLowerCase()
+    .replace(/[-_][^-_]/g, function(match) {
+      return match.charAt(1).toUpperCase()
+    })
+
+  return (
+    (isBig ? ret.charAt(0).toUpperCase() : ret.charAt(0).toLowerCase()) +
+    ret.slice(1)
+  )
+}
+
 function unique(array) {
   return Array.from(new Set(array))
 }

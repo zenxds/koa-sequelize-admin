@@ -15,7 +15,7 @@ module.exports = (router, admin) => {
       return ctx.throw(400, 'model is required')
     }
 
-    const config = admin.getConfig(model)
+    const config = admin.getConfig(model) || admin.getConfig(adminUtil.camelCase(model, true))
     if (!config) {
       return ctx.throw(403, 'model is not registered')
     }
