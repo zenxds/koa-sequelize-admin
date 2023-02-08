@@ -11,6 +11,10 @@ import './editor.less'
 
 import FullScreen from './FullScreen'
 
+const UPLOAD_URL = window.UPLOAD_URL || 'https://fe.dingxiang-inc.com/upload/image'
+const UPLOAD_FIELD = window.UPLOAD_FIELD || 'image'
+const IMAGE_PATH = window.IMAGE_PATH || 'https://cdn.dingxiang-inc.com/images/'
+
 export default class MyEditor extends Component {
   constructor(props) {
     super(props)
@@ -56,10 +60,10 @@ export default class MyEditor extends Component {
               uploadEnabled: true,
               uploadCallback: (file) => {
                 const formData = new FormData()
-                formData.append('image', file)
+                formData.append(UPLOAD_FIELD, file)
 
                 return axios({
-                  url: 'https://fe.dingxiang-inc.com/upload/image',
+                  url: UPLOAD_URL,
                   method: 'POST',
                   data: formData,
                 }).then(response => {
@@ -68,7 +72,7 @@ export default class MyEditor extends Component {
                   if (success) {
                     return {
                       data: {
-                        link: 'https://cdn.dingxiang-inc.com/images/' + data.path
+                        link: IMAGE_PATH + data.path
                       }
                     }
                   } else {

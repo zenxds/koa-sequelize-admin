@@ -28,7 +28,7 @@ npm install koa-sequelize-admin --save
     * component: 'input' | 'textarea' | 'password' | 'number' | 'select' | 'switch' | 'date' | 'time' | 'dateTime' | 'transfer' | 'editor'
     * required
     * defaultValue
-    * options
+    * options: [{ name: '', value: ''}]
     * tip
     * editable
 * associations: {}

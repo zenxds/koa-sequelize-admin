@@ -30,6 +30,12 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      virtual: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          return '1111'
+        }
+      },
     },
     {
       sequelize,
@@ -48,12 +54,16 @@ module.exports = (sequelize) => {
     name: '空间',
     format: '{{ name }}',
 
-    listFields: ['id', 'name', 'description', 'project'],
+    listFields: ['id', 'name', 'description', 'project', 'virtual'],
     filterFields: ['project'],
 
     fields: {
       name: '名称',
-      description: '描述'
+      description: {
+        name: '描述',
+        component: 'editor'
+      },
+      virtual: '虚拟字段'
     },
 
     associations: {

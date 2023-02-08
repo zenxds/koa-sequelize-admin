@@ -1,4 +1,8 @@
 {
   "ignore": ["log"],
-  "ext": "js,json,html"
+  "ext": "js,json,html",
+  "watch": [
+    "../admin/lib/*.js",
+    "./**/*.js"
+  ]
 }
