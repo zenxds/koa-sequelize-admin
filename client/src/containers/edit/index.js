@@ -30,10 +30,10 @@ export default class Page extends Component {
   }
 
   render() {
-    const { name } = this.props.store.config
+    const { admin } = this.props.store.config
     const params = this.props.match.params
 
-    if (!name) {
+    if (!admin) {
       return (
         <div className="page-loading">
           <Spin />
@@ -42,7 +42,7 @@ export default class Page extends Component {
     }
 
     return (
-      <LayoutMain title={name + (params.pk ? '编辑' : '新增')}>
+      <LayoutMain title={admin.name + (params.pk ? '编辑' : '新增')}>
         {params.pk ? (
           <EditForm history={this.props.history} pk={params.pk} />
         ) : (

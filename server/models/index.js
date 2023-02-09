@@ -16,7 +16,27 @@ each(models, model => {
   }
 })
 
-each(models, model => {
+each(models, (model, key) => {
+  if (key === 'Namespace') {
+    // delete model.sequelize
+    // delete model.options.sequelize
+
+    // console.dir(model.associations)
+    // console.dir(model.rawAttributes)
+    // console.dir(model.primaryKeys)
+    // console.dir(model.tableAttributes)
+    
+    // prop
+    // primaryKeyAttribute/primaryKeyAttributes/autoIncrementAttribute
+    // modelName默认大驼峰
+    each(Object.keys(model), k => {
+      // if (k.charAt(0) !== '_' && !/(sequelize|fieldRawAttributesMap|associations)/.test(k)) {
+      //   console.log(k)
+      //   console.dir(model[k])
+      // }
+    })
+  }
+
   if (model.admin) {
     adminService.register(model, model.admin)
   }

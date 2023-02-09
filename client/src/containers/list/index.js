@@ -30,9 +30,9 @@ export default class Page extends Component {
   }
 
   render() {
-    const { name } = this.props.store.config
+    const { admin } = this.props.store.config
 
-    if (!name) {
+    if (!admin) {
       return (
         <div className="page-loading">
           <Spin />
@@ -41,7 +41,7 @@ export default class Page extends Component {
     }
 
     return (
-      <LayoutMain title={`${name}管理`}>
+      <LayoutMain title={`${admin.name}管理`}>
         <Toolbar history={this.props.history} />
         <Table history={this.props.history} />
       </LayoutMain>

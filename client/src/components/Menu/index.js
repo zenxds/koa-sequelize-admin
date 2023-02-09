@@ -66,7 +66,7 @@ class PageMenu extends Component {
                   {item.children.map(child => {
                     return (
                       <Item key={child.key} pathname={`/model/${child.key}`}>
-                        {child.name}管理
+                        {child.admin.name}管理
                       </Item>
                     )
                   })}
@@ -76,7 +76,7 @@ class PageMenu extends Component {
 
             return (
               <Item key={item.key} pathname={`/model/${item.key}`}>
-                {item.name}管理
+                {item.admin.name}管理
               </Item>
             )
           })}

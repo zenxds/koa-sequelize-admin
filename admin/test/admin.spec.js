@@ -24,7 +24,9 @@ test('admin.getAttributes', () => {
   let attributes = admin.getAttributes(models.Project)
   expect(Object.keys(attributes).length).toBe(5)
 
-  attributes = admin.getAttributes(models.Project, ['name'])
+  attributes = admin.getAttributes(models.Project, {
+    exclude: ['name']
+  })
   expect(Object.keys(attributes).length).toBe(4)
 })
 
