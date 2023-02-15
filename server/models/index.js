@@ -16,6 +16,7 @@ each(models, model => {
   }
 })
 
+// fieldAttributeMap、fieldRawAttributesMap 开启下划线命名后的一些原始信息，正常和attributes一样
 each(models, (model, key) => {
   if (key === 'Namespace') {
     // delete model.sequelize
