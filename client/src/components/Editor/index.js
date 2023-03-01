@@ -66,6 +66,7 @@ export default class MyEditor extends Component {
                   url: UPLOAD_URL,
                   method: 'POST',
                   data: formData,
+                  withCredentials: true
                 }).then(response => {
                   const { success, data, message } = response.data
 
