@@ -61,7 +61,7 @@ module.exports = (sequelize) => {
       name: '名称',
       description: {
         name: '描述',
-        component: 'editor'
+        component: 'markdown'
       },
       virtual: '虚拟字段'
     },

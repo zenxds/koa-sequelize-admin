@@ -13,6 +13,7 @@ import {
 
 import SearchableSelect from '@components/Select/SearchableSelect'
 import Editor from '@components/Editor'
+import MDEditor from '@components/Markdown'
 import TextAreaCount from '@components/TextAreaCount'
 
 import './form.less'
@@ -157,6 +158,12 @@ export default class ItemForm extends Component {
     if (component === 'editor') {
       return (
         <Editor />
+      )
+    }
+
+    if (component === 'markdown') {
+      return (
+        <MDEditor />
       )
     }
 

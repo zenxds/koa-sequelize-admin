@@ -1,5 +1,4 @@
 import { getPublicPath } from './getPublicPath'
-import verifyCaptcha from './verifyCaptcha'
 
 export function isMobileDevice() {
   return /iPhone|iPad|iPod|Android|mobile/i.test(navigator.userAgent) || screen.width < 640
@@ -40,5 +39,4 @@ export * from './getPopupContainer'
 
 export {
   getPublicPath,
-  verifyCaptcha
 }
